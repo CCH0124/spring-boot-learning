@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  jaeger-tracing-java-service:
+    container_name: jaeger-tracing-web
+    build: 
+      context: .
+    environment:
+      OTEL_EXPORTER: jaeger
+      OTEL_EXPORTER_JAEGER_ENDPOINT: 192.168.101.129:9000
+#      OTEL_EXPORTER_JAEGER_ENDPOINT: jaeger_collector:14250
+      OTEL_EXPORTER_JAEGER_SERVICE_NAME: java-service
+      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.101.129:5432/employees
+      SPRING_DATASOURCE_USERNAME: dev
+      SPRING_DATASOURCE_PASSWORD: 123456
+    ports: 
+      - "8000:8080"
+#    networks:
+#      - trace
+
+#networks:
+#  trace:
+#    external:
+#      name: tracing_default

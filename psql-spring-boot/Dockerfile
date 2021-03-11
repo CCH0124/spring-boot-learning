@@ -7,10 +7,13 @@ WORKDIR /build/
 RUN ["mvn", "package", "-Dmaven.test.skip=true"]
 #RUN mvn package
 
-FROM openjdk:8-jre-alpine
+#FROM openjdk:11-jre-alpine
+FROM adoptopenjdk/openjdk11:jre-11.0.10_9-alpine
 
 WORKDIR /app
 
 COPY --from=MAVEN_BUILD /build/target/postgresql-demo-0.0.1-SNAPSHOT.jar /app/
 
-ENTRYPOINT ["java", "-jar", "postgresql-demo-0.0.1-SNAPSHOT.jar"]
+COPY opentelemetry-javaagent-all.jar opentelemetry-javaagent-all.jar
+
+ENTRYPOINT ["java", "-javaagent:opentelemetry-javaagent-all.jar", "-jar", "postgresql-demo-0.0.1-SNAPSHOT.jar"]
