@@ -151,6 +151,17 @@ employees=> SELECT * FROM employees;
 $ curl --request GET  http://127.0.0.1:8080/api/v1/employees/
 [{"id":1,"firstName":"Chen","lastName":"Kevin","email":"123@gmail.com"},{"id":3,"firstName":"Itachi","lastName":"madara","email":"madara234@gmail.com"}]
 ```
+## Docker
+
+```shell
+docker build -t web .
+```
+run image
+
+```shell
+docker run -itd -e SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.101.129:5432/employees -e SPRING_DATASOURCE_USERNAME=dev -e SPRING_DATASOURCE_PASSWORD=123456 -p 8080:8080 web:latest
+```
+
 ## 問題解決
 
 ```
