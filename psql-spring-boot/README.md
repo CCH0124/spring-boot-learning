@@ -161,7 +161,12 @@ run image
 ```shell
 docker run -itd -e SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.101.129:5432/employees -e SPRING_DATASOURCE_USERNAME=dev -e SPRING_DATASOURCE_PASSWORD=123456 -p 8080:8080 web:latest
 ```
+## Jaeger 配置
+引入 `opentelemetry-javaagent-all.jar` 透過 `-javaagent:opentelemetry-javaagent-all.jar` 運行。起 docker-compose 在配置 `OTEL_TRACES_EXPORTER: jaeger` 說明使用哪一種工具`OTEL_EXPORTER_JAEGER_ENDPOINT: http://192.168.101.129:9000` 連線到 Jaeger 的搜集器，最後透過 jaeger 儲存到 Elasticsearch。
 
+Jaeger exporter 目前只支援 gRPC 連線
+
+[opentelemetry-java](https://github.com/open-telemetry/opentelemetry-java/blob/main/sdk-extensions/autoconfigure/README.md)
 ## 問題解決
 
 ```

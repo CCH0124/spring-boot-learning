@@ -5,10 +5,10 @@ services:
     build: 
       context: .
     environment:
-      OTEL_EXPORTER: jaeger
-      OTEL_EXPORTER_JAEGER_ENDPOINT: 192.168.101.129:9000
-#      OTEL_EXPORTER_JAEGER_ENDPOINT: jaeger_collector:14250
-      OTEL_EXPORTER_JAEGER_SERVICE_NAME: java-service
+      OTEL_TRACES_EXPORTER: jaeger
+      OTEL_EXPORTER_JAEGER_ENDPOINT: http://192.168.101.129:9000 # must URI format
+      OTEL_RESOURCE_ATTRIBUTES: "service.name=java-application,service.version=v1.0.0"
+      OTEL_PROPAGATORS: "tracecontext,baggage"
       SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.101.129:5432/employees
       SPRING_DATASOURCE_USERNAME: dev
       SPRING_DATASOURCE_PASSWORD: 123456
