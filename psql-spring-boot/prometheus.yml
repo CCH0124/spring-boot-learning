@@ -1,0 +1,14 @@
+# springbootexporter.yml
+- targets:
+    - 192.168.101.129:8080
+  labels:
+    env: dev
+    role: web
+    __metrics_path__: /actuator/prometheus
+# prometheus main
+- job_name: 'springboot-exporter'
+  metrics_path: /metrics
+  file_sd_configs:
+    - files:
+      - /etc/prometheus/springbootexporter.yml
+      refresh_interval: 3m
