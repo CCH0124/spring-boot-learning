@@ -167,6 +167,35 @@ docker run -itd -e SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.101.129:5432/
 Jaeger exporter 目前只支援 gRPC 連線
 
 [opentelemetry-java](https://github.com/open-telemetry/opentelemetry-java/blob/main/sdk-extensions/autoconfigure/README.md)
+
+## Metric
+
+```xml
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_pushgateway</artifactId>
+		</dependency>
+```
+
+屬性配置
+
+```yaml
+management.endpoints.web.exposure.include=prometheus
+management.metrics.export.prometheus=true
+management.metrics.export.prometheus.pushgateway.base-url=localhost:9091 # metric 傳給 pushgateway，由 Prometheus 抓取值
+management.metrics.export.prometheus.pushgateway.enabled=true
+management.metrics.export.prometheus.pushgateway.push-rate=1m
+management.metrics.export.prometheus.pushgateway.shutdown-operation=push
+```
+
 ## 問題解決
 
 ```
