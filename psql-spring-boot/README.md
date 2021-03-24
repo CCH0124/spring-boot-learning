@@ -190,9 +190,13 @@ Jaeger exporter 目前只支援 gRPC 連線
 ```yaml
 management.endpoints.web.exposure.include=prometheus
 management.metrics.export.prometheus=true
+# 將數據傳入 pushgateway 端
 management.metrics.export.prometheus.pushgateway.base-url=localhost:9091 # metric 傳給 pushgateway，由 Prometheus 抓取值
+# 啟用推送數據
 management.metrics.export.prometheus.pushgateway.enabled=true
+# 推送數據的頻率
 management.metrics.export.prometheus.pushgateway.push-rate=1m
+# 在 JVM 關閉之前送出去
 management.metrics.export.prometheus.pushgateway.shutdown-operation=push
 ```
 
