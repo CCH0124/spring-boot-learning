@@ -13,6 +13,7 @@ services:
       OTEL_EXPORTER_OTLP_TIMEOUT: 1000
       OTEL_RESOURCE_ATTRIBUTES: "service.name=java-redis-demo,service.version=v1.0.0"
       OTEL_PROPAGATORS: "tracecontext,baggage"
+      OTEL_INSTRUMENTATION_COMMON_DB_STATEMENT_SANITIZER_ENABLED: "false"
       SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.101.129:9432/demo
       SPRING_DATASOURCE_USERNAME: demo 
       SPRING_DATASOURCE_PASSWORD: 123456
