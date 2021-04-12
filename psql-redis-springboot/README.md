@@ -1,3 +1,5 @@
+此專案包含兩個 docker-compose，logging 開頭用於 log 蒐集實驗用，tracing 則是分散式追蹤用。
+
 ```shell
 postgres=# CREATE USER demo WITH PASSWORD '123456';
 CREATE ROLE

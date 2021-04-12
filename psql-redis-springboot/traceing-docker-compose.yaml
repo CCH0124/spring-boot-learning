@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  jaeger-tracing-java-service:
+    container_name: jaeger-tracing-web-redis-demo
+    build: 
+      context: .
+    environment:
+      OTEL_TRACES_EXPORTER: jaeger
+      OTEL_EXPORTER_JAEGER_ENDPOINT: http://192.168.101.129:9000 # must URI format
+      OTEL_RESOURCE_ATTRIBUTES: "service.name=java-redis-demo,service.version=v1.0.0"
+      OTEL_PROPAGATORS: "tracecontext,baggage"
+      OTEL_METRICS_EXPORTER: none
+      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.101.129:9432/demo
+      SPRING_DATASOURCE_USERNAME: demo 
+      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_REDIS_HOST: redis
+    ports: 
+      - "8000:8080"
+  redis:
+    container_name: redis
+    image: redis:latest
+    expose: 
+      - 6379
