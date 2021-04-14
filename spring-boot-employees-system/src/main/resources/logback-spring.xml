@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    
+    <springProperty scope="context" name="fluentHost" source="cch.fluentd.host"/>
+    <springProperty scope="context" name="fluentPort" source="cch.fluentd.port" defaultValue="24224" />
+    <springProperty scope="context" name="springAppName" source="spring.application.name" />
+    <springProperty scope="context" name="env" source="spring.profiles.active" defaultValue="local"/>
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level - %logger{36} - %msg trace_id=%X{trace_id} span_id=%X{span_id} trace_flags=%X{trace_flags} %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FLUENT" class="ch.qos.logback.more.appenders.DataFluentAppender">
+        <tag>debug</tag>
+        <label>normal</label>
+        <remoteHost>${fluentHost}</remoteHost>
+        <port>${fluentPort}</port>
+
+        <additionalField>
+            <key>env</key>
+            <value>${env}</value>
+        </additionalField>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers class="net.logstash.logback.composite.loggingevent.LoggingEventJsonProviders">
+                <pattern>
+                    <pattern>
+                        {
+                        "timestamp": "%date{ISO8601}",
+                        "level": "%level",
+                        "application": "${springAppName:-}",
+                        "trace": "%X{trace_id:-}",
+                        "span": "%X{span_id:-}",
+                        "trace_flags": "%X{trace_flags:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <springProfile name="dev">
+        <root level="DEBUG">
+			<appender-ref ref="STDOUT" />
+            <appender-ref ref="FLUENT" />
+		</root>
+    </springProfile>
+    <springProfile name="file">
+        <property name="logPath" value="/var/log/"/>
+        <appender name="fileInfoLog" filePermissions="rw-r--r--" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers class="net.logstash.logback.composite.loggingevent.LoggingEventJsonProviders">
+                    <pattern>
+                        <pattern>
+                            {
+                                "timestamp": "%date{ISO8601}",
+                                "level": "%level",
+                                "application": "${springAppName:-}",
+                                "trace": "%X{trace_id:-}",
+                                "span": "%X{span_id:-}",
+                                "trace_flags": "%X{trace_flags:-}",
+                                "pid": "${PID:-}",
+                                "thread": "%thread",
+                                "class": "%logger{40}",
+                                "message": "%message"
+                            }
+                        </pattern>
+                    </pattern>
+                </providers>
+            </encoder>
+            <!--滾動策略-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--路徑-->
+                <fileNamePattern>${logPath}/info.%d.log</fileNamePattern>
+                <maxHistory>7</maxHistory>
+                <maxFileSize>10MB</maxFileSize>
+                <totalSizeCap>100MB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="fileInfoLog" />
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="ERROR">
+			<appender-ref ref="STDOUT" />
+            <appender-ref ref="FLUENT" />
+		</root>
+    </springProfile>
+    <!-- 本地開發 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FLUENT" />
+    </root>
+
+</configuration>
