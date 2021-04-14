@@ -2,7 +2,7 @@
 
 ## spring-boot-employees-system
 
-當中分支 logback 實現日誌整合 EFK。
+當中分支 logback 實現日誌整合 EFK。同時也整合 opentelemtry 將 MDC 整進 Log 中
 - 實現 Log 以 Json 格式輸出
 - 定義 fluent 的 host 和 port，當應用程式打包好後，可直接將日誌傳輸至 fluent 中，此方式不需要 docker-compose 中 logging
 
