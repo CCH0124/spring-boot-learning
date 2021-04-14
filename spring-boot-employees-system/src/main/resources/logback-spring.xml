@@ -95,10 +95,5 @@
             <appender-ref ref="FLUENT" />
 		</root>
     </springProfile>
-    <!-- 本地開發 -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FLUENT" />
-    </root>
 
 </configuration>
