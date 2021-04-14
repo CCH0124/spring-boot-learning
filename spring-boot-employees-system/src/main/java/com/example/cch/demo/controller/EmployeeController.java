@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Controller
 public class EmployeeController {
     @Autowired
@@ -33,12 +36,14 @@ public class EmployeeController {
     public String showNewEmployeeForm(Model model) {
         Employee employee = new Employee();
         model.addAttribute("employee", employee);
+        log.info("[showNewEmployeeForm] employee: {}", employee);
         return "new_employee";
     }
 
     @PostMapping("/saveEmployee")
     public String saveEmployee(@ModelAttribute("employee") Employee employee) {
         employeeService.saveEmployee(employee);
+        log.error("[saveEmployee] id: {}, name:{}", employee::getId, employee::getFirstName);
         return "redirect:/";
     }
 
@@ -52,6 +57,7 @@ public class EmployeeController {
     @GetMapping("/deleteEmployee/{id}")
     public String deleteEmployee(@PathVariable(value = "id") Long id) {
         this.employeeService.deleteEmployeeById(id);
+        log.error("[deleteEmployee] id: {}", id);
         return "redirect:/";
     }
 
