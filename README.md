@@ -6,4 +6,4 @@
 - 實現 Log 以 Json 格式輸出
 - 定義 fluent 的 host 和 port，當應用程式打包好後，可直接將日誌傳輸至 fluent 中，此方式不需要 docker-compose 中 logging
 
-主要差異會在 pom.xml 的套件引入、logback-spring.xml 的設置和 application 屬性配置。
+主要差異會在 pom.xml 的套件引入、logback-spring.xml 的設置和 application 屬性配置。同時有為 prod、dev 環境進行設置，prod 只會在出現 ERROR 以上等級才會將日誌顯示在控制台中，而 dev 則是 INFO 等級以上。
