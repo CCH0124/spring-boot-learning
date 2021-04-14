@@ -76,7 +76,7 @@
             <!--滾動策略-->
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!--路徑-->
-                <fileNamePattern>${logPath}/info.%d.log</fileNamePattern>
+                <fileNamePattern>${logPath}/info.%d_%i.log</fileNamePattern>
                 <maxHistory>7</maxHistory>
                 <maxFileSize>10MB</maxFileSize>
                 <totalSizeCap>100MB</totalSizeCap>
