@@ -51,7 +51,7 @@
 		</root>
     </springProfile>
     <springProfile name="file">
-        <property name="logPath" value="/var/log/"/>
+        <property name="logPath" value="/var/log"/>
         <appender name="fileInfoLog" filePermissions="rw-r--r--" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers class="net.logstash.logback.composite.loggingevent.LoggingEventJsonProviders">
@@ -76,7 +76,7 @@
             <!--滾動策略-->
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!--路徑-->
-                <fileNamePattern>${logPath}/info.%d_%i.log</fileNamePattern>
+                <fileNamePattern>${logPath}/info.%d{dd-MM-yyyy}_%i.log</fileNamePattern>
                 <maxHistory>7</maxHistory>
                 <maxFileSize>10MB</maxFileSize>
                 <totalSizeCap>100MB</totalSizeCap>
