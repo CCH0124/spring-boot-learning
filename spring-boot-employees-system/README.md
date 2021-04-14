@@ -104,10 +104,10 @@ grant all on demo.* to 'spring'@'%';
 
 
 ## Home Page
-![](/image/HomePage.png)
+![](image/HomePage.png)
 
 ## Add Employee Page
-![](/image/addPage.png)
+![](image/addPage.png)
 
 ## Update Page
-![](/image/updatePage.png)
+![](image/updatePage.png)
