@@ -96,4 +96,8 @@
 		</root>
     </springProfile>
 
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FLUENT" />
+    </root>
 </configuration>
