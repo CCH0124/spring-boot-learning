@@ -13,5 +13,5 @@
 在此目錄下運行即可有反向代理，但需要注意 Port 映射
 
 ```bash
-docker run -itd -p 80:80 -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf nginx
+docker run -itd -p 80:80 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf -v $(pwd)/security_header.conf:/etc/nginx/security_header.conf -v $(pwd)/sites-enabled/spring.conf:/etc/nginx/conf.d/default.conf nginx
 ```
