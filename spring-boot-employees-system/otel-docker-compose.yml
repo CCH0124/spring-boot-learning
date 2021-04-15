@@ -17,13 +17,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo
       SPRING_DATASOURCE_USERNAME: spring
       SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_APPLICATION_NAME: dev-mysql-employees
+      SPRING_PROFILES_ACTIVE: prod 
+      CCH_FLUENTD_PORT: 3003
+      CCH_FLUENTD_HOST: 192.168.101.129
     ports: 
       - "8000:8080"
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: 192.168.101.129:24224
-        tag: web-backend
     depends_on:
       - mysql
   mysql:
@@ -31,6 +30,8 @@ services:
     image: mysql:8.0
     volumes:
       - db_data:/var/lib/mysql
+    ports:
+      - 5432:3306
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
