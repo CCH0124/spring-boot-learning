@@ -2,7 +2,7 @@
 
 ## spring-boot-employees-system
 
-實現日誌整合 EFK。同時也整合 opentelemtry 將 MDC 整進 Log 中
+實現日誌整合 EFK。同時也整合 OpenTelemetry 將 MDC 整進 Log 中
 - 實現 Log 以 Json 格式輸出
 - 定義 fluent 的 host 和 port，當應用程式打包好後，可直接將日誌傳輸至 fluent 中，此方式不需要 docker-compose 中 logging
 
@@ -10,7 +10,7 @@
 
 ## psql-redis-springboot
 
-包含三個 docker-compose，logging 開頭用於 log 蒐集實驗用，tracing 則是分散式追蹤用，otel 同 tracing，但使用的組件不一樣，前者使用 jaeger 組件後者使用 opentelemtry 組件。
+包含三個 docker-compose，logging 開頭用於 log 蒐集實驗用，tracing 則是分散式追蹤用，otel 同 tracing，但使用的組件不一樣，前者使用 jaeger 組件後者使用 OpenTelemetry 組件。
 
 與 spring-boot-employees-system 的 logger 不同於，這邊不將 log 做任何處裡，而是透過 docker-compose 中 logging 的關鍵字，將應用程式 log 直接發送至 EFK 平台。log 分析這是由 EFK 組件負責。
 
