@@ -1,4 +1,4 @@
-此專案包含兩個 docker-compose，logging 開頭用於 log 蒐集實驗用，tracing 則是分散式追蹤用。
+此專案包含兩個 docker-compose，logging 開頭用於 log 蒐集實驗用，tracing 則是分散式追蹤用，otel 開頭檔案表示使用 otel 協定傳輸；否則就是 jaeger。
 
 ```shell
 postgres=# CREATE USER demo WITH PASSWORD '123456';
