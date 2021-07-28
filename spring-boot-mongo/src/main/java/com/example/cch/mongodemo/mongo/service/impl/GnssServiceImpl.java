@@ -77,12 +77,15 @@ public class GnssServiceImpl implements GnssService {
     public List<GnssMappingVO> getListDeviceIdCustom(String id) {
         // Use Query method
         Query query = new Query();
-        query.fields().include("id").include("sensorName").include("coords").include("deviceId");
-        query.addCriteria(Criteria.where("deviceId").is(id));
-        query.with(Sort.by(Sort.Direction.ASC, "sensorName", "deviceId"));
+        query.fields().include("id").include("sensorName").include("coords").include("deviceId"); // like SQL SELECT
+        query.addCriteria(Criteria.where("deviceId").is(id)); // WHERE condition
+        query.with(Sort.by(Sort.Direction.ASC, "sensorName", "deviceId")); // like SQL ORDER BY
         
         List<Gnss> gnssList = mongoTemplate.find(query, Gnss.class);
         List<GnssMappingVO> res = new ArrayList<>();
+        /**
+         * 回傳資料而外處理
+         */
         for (int i=0; i<gnssList.size(); i++){
             GnssMappingVO gnssMappingVO = new GnssMappingVO().builder()
                 .id(gnssList.get(i).getId())
@@ -116,7 +119,7 @@ public class GnssServiceImpl implements GnssService {
 
         log.debug("[Start Time]: {}", queryVO.getQuery().getStart().getTime());
         log.debug("[End Time]: {}", queryVO.getQuery().getEnd().getTime());
-        query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[criteriaList.size()])));
+        query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[criteriaList.size()]))); // implement WHERE and 
         query.with(Sort.by(Sort.Direction.ASC, timestamp_column));
         log.debug("[MongoDB query]: {}", query.toString());
 
@@ -129,7 +132,9 @@ public class GnssServiceImpl implements GnssService {
     public List<Gnss> getListByTimestampRangeBasicQuery(GnssListRequestVO queryVO) {
         String deviceId_column = "deviceId";
         String timestamp_column = "timestamp";
-    
+        /**
+         * Use the original query method
+         */
         String q = "{ \""+ deviceId_column+ "\" :\"" + queryVO.getQuery().getDeviceId() + "\", \"$and\" : [{ \"" + timestamp_column + "\" : { \"$gte\" : NumberLong(\"" + queryVO.getQuery().getStart().getTime() +
         "\") } }, {" + "\"" + timestamp_column + "\" : {  \"$lte\" : NumberLong(\"" + queryVO.getQuery().getEnd().getTime() + "\") } }] }";
         
@@ -144,6 +149,9 @@ public class GnssServiceImpl implements GnssService {
         String deviceId_column = "deviceId";
         String timestamp_column = "timestamp";
         String gps_column = "coords";
+        /**
+         * User Bson query
+         */
         Bson bson = Filters.and(Arrays.asList(
                 Filters.eq(deviceId_column, queryVO.getQuery().getDeviceId()),
                 Filters.gte(timestamp_column, queryVO.getQuery().getStart().getTime()),
@@ -178,7 +186,7 @@ public class GnssServiceImpl implements GnssService {
         String collectionJoin = "connectivity";
         MatchOperation matchStage = Aggregation.match(Criteria.where(deviceId_column).is(queryVO.getQuery().getDeviceId()));
         LookupOperation lookupOperation = LookupOperation.newLookup()
-            .from(collectionJoin)
+            .from(collectionJoin) // Left join
             .localField(deviceId_column)
             .foreignField(deviceId_column)
             .as("connectivities");
