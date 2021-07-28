@@ -10,4 +10,4 @@
 ## Problem
 - Date range use Query method is fail, then use Bson method is success.
 
-待釐清問題，目前認為是型態問題導致。
+待釐清問題，目前認為是型態問題導致（timestamp -> NumberLong）。
