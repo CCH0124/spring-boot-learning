@@ -1,5 +1,6 @@
 此專案包含兩個 docker-compose，logging 開頭用於 log 蒐集實驗用，tracing 則是分散式追蹤用，otel 開頭檔案表示使用 otel 協定傳輸；否則就是 jaeger。
 
+關於 SQL 部分預設是用 psql 目錄下的 init.sh 建立一個 demo 的 DB 使用，如果要使用非預設帳號時可用以下建立，但對於 docker-compose 檔案部分，SQL 使用者和密碼必須置換成 SQL 中設定的內容。
 ```shell
 postgres=# CREATE USER demo WITH PASSWORD '123456';
 CREATE ROLE
