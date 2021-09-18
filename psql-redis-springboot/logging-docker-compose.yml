@@ -10,7 +10,7 @@ services:
       OTEL_RESOURCE_ATTRIBUTES: "service.name=java-redis-demo,service.version=v1.0.0"
       OTEL_PROPAGATORS: "tracecontext,baggage"
       OTEL_METRICS_EXPORTER: none
-      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.101.129:9432/demo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo
       SPRING_DATASOURCE_USERNAME: demo 
       SPRING_DATASOURCE_PASSWORD: 123456
       SPRING_REDIS_HOST: redis
