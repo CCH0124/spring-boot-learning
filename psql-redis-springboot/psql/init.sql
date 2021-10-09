@@ -1,0 +1,4 @@
+CREATE USER demo WITH PASSWORD '123456';
+CREATE DATABASE demo WITH template=template0 owner=demo;
+\connect demo;
+ALTER DEFAULT PRIVILEGES GRANT all ON SEQUENCES TO demo;

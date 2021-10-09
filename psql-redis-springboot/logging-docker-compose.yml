@@ -1,15 +1,10 @@
 version: '3.7'
 services:
-  jaeger-tracing-java-service:
+  logging-service:
     container_name: jaeger-tracing-web-redis-demo
     build: 
       context: .
     environment:
-      OTEL_TRACES_EXPORTER: jaeger
-      OTEL_EXPORTER_JAEGER_ENDPOINT: http://192.168.101.129:9000 # must URI format
-      OTEL_RESOURCE_ATTRIBUTES: "service.name=java-redis-demo,service.version=v1.0.0"
-      OTEL_PROPAGATORS: "tracecontext,baggage"
-      OTEL_METRICS_EXPORTER: none
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo
       SPRING_DATASOURCE_USERNAME: demo 
       SPRING_DATASOURCE_PASSWORD: 123456
@@ -17,36 +12,13 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: 192.168.101.129:24224
+        fluentd-address: 172.17.10.105:24224
         tag: web-backend
     ports: 
       - "8000:8080"
-  redis:
-    container_name: redis
-    image: redis:latest
-    expose: 
-      - 6379
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: 192.168.101.129:24224
-        tag: redis
-  postgres:
-    container_name: postgres
-    image: postgres
-    restart: always
-    ports:
-      - "5432:5432"
-    hostname: postgres
-    environment:
-      - POSTGRES_PASSWORD=123456
-    volumes:
-      - ./psql/init.sh:/docker-entrypoint-initdb.d/init.sh
-      - pv_postgresql:/var/lib/postgresql/data
-    healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U postgres"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-volumes:
-  pv_postgresql:
+    networks:
+      - backend
+networks:
+  backend:
+    external:
+      name: spring-boot-network
