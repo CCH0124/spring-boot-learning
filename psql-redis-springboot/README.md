@@ -5,7 +5,9 @@ docker network create spring-boot-network
 
 運行 logging-docker-compose.yml 和 storage-docker-compose.yml 可以實現*日誌蒐集*。前提需要把 EFK 架設起來可參考 [EFK 架設](https://github.com/CCH0124/DevOps/tree/main/logging/efk)。
 
-
+trace 目錄則是實現分散式鏈路追蹤的範例，otel-docker-compose.yml(使用 Opentelemetry 協定)、traceing-docker-compose.yaml(使用 Jaeger)，同樣須將環境建設
+Opentelemetry 可參考此[鏈接](https://github.com/CCH0124/DevOps/tree/main/opentelemetry)
+Jaeger 可參考此[鏈接](https://github.com/CCH0124/DevOps/tree/main/tracing/jaeger)
 
 關於 SQL 部分預設是用 psql 目錄下的 init.sql 建立一個 demo 的 DB 使用，如果要使用非預設帳號時可用以下建立，但對於 docker-compose 檔案部分，SQL 使用者和密碼必須置換成 SQL 中設定的內容。
 ```shell
