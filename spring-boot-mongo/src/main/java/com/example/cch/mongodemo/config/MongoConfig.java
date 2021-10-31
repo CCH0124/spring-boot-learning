@@ -48,7 +48,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     @Override
     public MongoClient mongoClient() {
         // TODO Auto-generated method stub
-        // MongoCredential credential = MongoCredential.createCredential(user, database, password.toCharArray());
+        MongoCredential credential = MongoCredential.createScramSha256Credential(user, database, password.toCharArray());
         // createScramSha256Credential(user, database, password.toCharArray());
 
         List<ServerAddress> serverAddresses = new ArrayList<>();
@@ -66,7 +66,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
             MongoClientSettings.builder()
             // .applyToSslSettings(builder -> builder.enabled(true))
             .applyToClusterSettings(builder -> builder.hosts(serverAddresses))
-            // .credential(credential)
+            .credential(credential)
             .build());
 
         log.info("Mongodb Server Addresses: {}", serverAddresses.toString());
