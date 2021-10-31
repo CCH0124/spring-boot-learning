@@ -3,25 +3,28 @@ services:
   jaeger-tracing-java-service:
     container_name: jaeger-tracing-web-redis-demo
     build: 
-      context: .
+      context: ./../../psql-redis-springboot
+      dockerfile: Dockerfile.trace
     environment:
       OTEL_TRACES_EXPORTER: otlp 
       OTEL_METRICS_EXPORTER: otlp
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://192.168.101.129:4317
-      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://192.168.101.129:4317
-      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: http://192.168.101.129:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://172.17.10.105:4317
+      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://172.17.10.105:4317
+      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: http://172.17.10.105:4317
       OTEL_EXPORTER_OTLP_TIMEOUT: 1000
       OTEL_RESOURCE_ATTRIBUTES: "service.name=java-redis-demo,service.version=v1.0.0"
       OTEL_PROPAGATORS: "tracecontext,baggage"
       OTEL_INSTRUMENTATION_COMMON_DB_STATEMENT_SANITIZER_ENABLED: "false"
-      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.101.129:9432/demo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo
       SPRING_DATASOURCE_USERNAME: demo 
       SPRING_DATASOURCE_PASSWORD: 123456
       SPRING_REDIS_HOST: redis
     ports: 
       - "8000:8080"
-  redis:
-    container_name: redis
-    image: redis:latest
-    expose: 
-      - 6379
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: spring-boot-network
